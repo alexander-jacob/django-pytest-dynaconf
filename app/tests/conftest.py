@@ -2,13 +2,6 @@ import pytest
 from django.core.management import call_command
 
 
-@pytest.fixture(scope="session", autouse=True)
-def set_test_settings():
-    # https://github.com/rochacbruno/dynaconf/issues/491#issuecomment-745391955
-    from django.conf import settings
-    settings.DYNACONF.configure(FORCE_ENV_FOR_DYNACONF='pytest')
-
-
 @pytest.fixture(scope='session')
 def django_db_setup(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
