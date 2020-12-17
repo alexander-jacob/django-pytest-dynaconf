@@ -4,11 +4,9 @@ from django.core.management import call_command
 
 @pytest.fixture(scope="session", autouse=True)
 def set_test_settings():
-    """
-    This causes an error later when Django uses default settings
-    """
-    from dynaconf import settings
-    settings.configure(FORCE_ENV_FOR_DYNACONF='pytest')
+    # https://github.com/rochacbruno/dynaconf/issues/491#issuecomment-745391955
+    from django.conf import settings
+    settings.DYNACONF.configure(FORCE_ENV_FOR_DYNACONF='pytest')
 
 
 @pytest.fixture(scope='session')
