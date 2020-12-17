@@ -1,4 +1,5 @@
 import django
+from django.conf import settings
 
 django.setup()  # noqa
 
@@ -12,3 +13,7 @@ def test_admin_user():
     User = get_user_model()
 
     assert User.objects.filter(username='admin').exists()
+
+
+def test_settings():
+    assert settings.FOO == 'foo-test'

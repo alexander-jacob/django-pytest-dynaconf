@@ -3,13 +3,11 @@ from django.core.management import call_command
 
 
 @pytest.fixture(scope="session", autouse=True)
-def set_test_settings():
-    # https://github.com/rochacbruno/dynaconf/issues/491#issuecomment-745391955
+def assert_dynaconf_pytest_environment():
     from django.conf import settings
-    settings.DYNACONF.configure(FORCE_ENV_FOR_DYNACONF='pytest')
+    assert settings.ENVIRONMENT == 'pytest'
 
 
-@pytest.fixture(scope='session')
-def django_db_setup(django_db_setup, django_db_blocker):
-    with django_db_blocker.unblock():
-        call_command('loaddata', 'project/fixtures/admin.json')
+@pytest.fixture(autouse=True)
+def fixtures(db):
+    call_command('loaddata', 'project/fixtures/admin.json')
